@@ -4,7 +4,7 @@
   "description": "[![Actions Status](https://github.com/Alaiv/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/Alaiv/frontend-project-46/actions)",
   "main": "src/genDiff.js",
   "bin": {
-    "gendiff": "bin/genDiff.js"
+    "gendiff": "bin/gendiff.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
