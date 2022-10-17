@@ -1,2 +1,2 @@
 gendiff:
-	./bin/gendiff
+	node bin/gendiff.js
