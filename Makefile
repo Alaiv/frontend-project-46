@@ -6,4 +6,6 @@ lint:
 publish:
 	npm publish
 test:
-	NODE_OPTIONS=--experimental-vm-modules npx jest
+	NODE_OPTIONS=--experimental-vm-modules npm test
+test-coverage:
+	NODE_OPTIONS=--experimental-vm-modules npm test -- --coverage --coverageProvider=v8

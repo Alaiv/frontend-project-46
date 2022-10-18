@@ -6,6 +6,9 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
+  "simple-git-hooks": {
+    "pre-push": "make lint"
+  },
   "scripts": {
     "test": "npx jest"
   },
@@ -22,6 +25,7 @@
   "type": "module",
   "dependencies": {
     "commander": "^9.4.1",
+    "debug": "^4.3.4",
     "deps": "^1.0.0",
     "lodash": "^4.17.21"
   },
