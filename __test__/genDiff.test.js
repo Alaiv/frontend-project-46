@@ -24,7 +24,7 @@ const data2 = `{
     timeout: 50
 }`;
 
-test('genDiff', () => {
+test('genDiff_JSON', () => {
   const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
   expect(result).toEqual(data);
 
@@ -33,4 +33,20 @@ test('genDiff', () => {
 
   const result3 = genDiff(getFixturePath('file1.json'), getFixturePath('file1.json'));
   expect(result3).toEqual(data2);
+});
+
+test('genDiff_YAML', () => {
+  const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));
+  expect(result).toEqual(data);
+
+  const result2 = genDiff('', '');
+  expect(result2).toBeFalsy();
+
+  const result3 = genDiff(getFixturePath('file1.yml'), getFixturePath('file1.yml'));
+  expect(result3).toEqual(data2);
+});
+
+test('genDiff_YAML+JSON', () => {
+  const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'));
+  expect(result).toEqual(data);
 });
