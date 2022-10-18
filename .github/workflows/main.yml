@@ -8,7 +8,7 @@
           - uses: actions/checkout@v3
           - uses: actions/setup-node@v3.5.1
           - run: npm install
-          - run: npx jest
+          - run: make test
           - name: run linter
             run: npx eslint .
 
