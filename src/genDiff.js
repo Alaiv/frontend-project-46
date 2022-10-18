@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 import _ from 'lodash';
 
 const genDiff = (filepath1, filepath2) => {
+  if (!filepath1 || !filepath2) return false;
+
   const [path1, path2] = [path.resolve(filepath1), path.resolve(filepath2)];
   const file1 = JSON.parse(readFileSync(path1, 'utf8'));
   const file2 = JSON.parse(readFileSync(path2, 'utf8'));
