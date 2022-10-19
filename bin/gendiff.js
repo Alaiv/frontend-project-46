@@ -11,9 +11,11 @@ program
   .description('Compares two configuration __fixtures__ and shows a difference.')
   .arguments('<filepath1> <filepath2>')
   .version('1')
-  .option('-f, --format <type>', 'output format')
+  .option('-f, --format <type>', 'output format', 'stylish')
   .action((filepath1, filepath2) => {
-    console.log(genDiff(filepath1, filepath2));
+    const options = program.opts();
+    const f = options.format;
+    console.log(genDiff(filepath1, filepath2, f));
   });
 
 program.parse();

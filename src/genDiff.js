@@ -1,28 +1,45 @@
 import _ from 'lodash';
 import parsers from './parsers.js';
+import stylish from './formaters/stylish.js';
 
-const genDiff = (filepath1, filepath2) => {
+export const formatObject = (obj, type) => {
+  switch (type) {
+    case 'stylish':
+      return stylish(obj);
+    default:
+      return 'wrong type';
+  }
+};
+
+const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
   if (!filepath1 || !filepath2) return false;
-
   const [file1, file2] = parsers(filepath1, filepath2);
-  const [keys1, keys2] = [Object.keys(file1), Object.keys(file2)];
-  const sumKeys = _.sortBy(_.uniq([...keys1, ...keys2]));
-  let result = '{';
 
-  sumKeys.forEach((key) => {
-    if (file1[key] === file2[key]) {
-      result = `${result}\n    ${key}: ${file1[key]}`;
-    } else if (!keys1.includes(key)) {
-      result = `${result}\n  + ${key}: ${file2[key]}`;
-    } else if (!keys2.includes(key)) {
-      result = `${result}\n  - ${key}: ${file1[key]}`;
-    } else {
-      result = `${result}\n  - ${key}: ${file1[key]}`;
-      result = `${result}\n  + ${key}: ${file2[key]}`;
-    }
-  });
+  const iter = (first, second) => {
+    const [keys1, keys2] = [Object.keys(first), Object.keys(second)];
+    const sumKeys = _.sortBy(_.uniq([...keys1, ...keys2]));
 
-  return `${result}\n}`;
+    return sumKeys.reduce((acc, key) => {
+      const fir = first[key];
+      const sec = second[key];
+
+      if (fir === undefined) {
+        acc[`+ ${key}`] = sec;
+      } else if (sec === undefined) {
+        acc[`- ${key}`] = fir;
+      } else if (_.isObject(fir) && _.isObject(sec)) {
+        acc[`${key}`] = iter(fir, sec);
+      } else if (fir === sec) {
+        acc[`${key}`] = fir;
+      } else {
+        acc[`- ${key}`] = fir;
+        acc[`+ ${key}`] = sec;
+      }
+      return acc;
+    }, {});
+  };
+
+  return formatObject(iter(file1, file2), formatterType);
 };
 
 export default genDiff;

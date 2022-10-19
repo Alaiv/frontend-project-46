@@ -1,0 +1,20 @@
+{
+  "string": "value",
+  "boolean": true,
+  "number": 5,
+  "float": 1.25,
+  "object": {
+    "num": "number",
+    "float": "float",
+    "null": "null",
+    "boolean": "boolean",
+    "value": "string",
+    "nested": {
+      "boolean": true,
+      "float": 1.25,
+      "string": "value",
+      "number": 5,
+      "null": null
+    }
+  }
+}
