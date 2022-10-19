@@ -75,3 +75,11 @@ export const obj = {
     baz: 'bars',
   },
 };
+
+export const obj2 = {
+  'a+ first': 'checker',
+  'r- second': 'check',
+  'u- third': 'check3',
+  'u+ third': 'check2',
+  third: 'val',
+};

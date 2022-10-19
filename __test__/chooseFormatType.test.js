@@ -1,6 +1,7 @@
 import { expect, test } from '@jest/globals';
-import { formatObject } from '../src/genDiff.js';
+
 import { obj } from '../__fixtures__/testObjects.js';
+import chooseFormatType from '../src/formaters/index.js';
 
 const result = `{
     common: {
@@ -22,6 +23,6 @@ const result = `{
 }`;
 
 test('formatType', () => {
-  expect(formatObject(obj, 'stylish')).toEqual(result);
-  expect(formatObject(obj, '3')).toEqual('wrong type');
+  expect(chooseFormatType(obj, 'stylish')).toEqual(result);
+  expect(chooseFormatType(obj)).toEqual(result);
 });

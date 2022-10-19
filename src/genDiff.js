@@ -1,15 +1,6 @@
 import _ from 'lodash';
 import parsers from './parsers.js';
-import stylish from './formaters/stylish.js';
-
-export const formatObject = (obj, type) => {
-  switch (type) {
-    case 'stylish':
-      return stylish(obj);
-    default:
-      return 'wrong type';
-  }
-};
+import getFormatType from './formaters/index.js';
 
 const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
   if (!filepath1 || !filepath2) return false;
@@ -24,22 +15,22 @@ const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
       const sec = second[key];
 
       if (fir === undefined) {
-        acc[`+ ${key}`] = sec;
+        acc[`a+ ${key}`] = sec;
       } else if (sec === undefined) {
-        acc[`- ${key}`] = fir;
+        acc[`r- ${key}`] = fir;
       } else if (_.isObject(fir) && _.isObject(sec)) {
         acc[`${key}`] = iter(fir, sec);
       } else if (fir === sec) {
         acc[`${key}`] = fir;
       } else {
-        acc[`- ${key}`] = fir;
-        acc[`+ ${key}`] = sec;
+        acc[`u- ${key}`] = fir;
+        acc[`u+ ${key}`] = sec;
       }
       return acc;
     }, {});
   };
 
-  return formatObject(iter(file1, file2), formatterType);
+  return getFormatType(iter(file1, file2), formatterType);
 };
 
 export default genDiff;
