@@ -1,24 +1,6 @@
 import { expect, test } from '@jest/globals';
 import stylish from '../src/formaters/stylish.js';
-
-const obj = {
-  common: {
-    follow: false,
-    setting5: {
-      key5: 'value5',
-    },
-    setting6: {
-      key: 'value',
-      doge: {
-        wow: 'so much',
-      },
-    },
-  },
-  group1: {
-    foo: 'bar',
-    baz: 'bars',
-  },
-};
+import { obj } from '../__fixtures__/testObjects.js';
 
 const result = `{
     common: {

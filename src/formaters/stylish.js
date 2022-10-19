@@ -2,26 +2,25 @@ import _ from 'lodash';
 
 const stylish = (data, dex = ' ') => {
   if (!data || !_.isObject(data)) return false;
-  const count = 2;
+  const defSpace = 2;
+  const addSpaceCount = 4;
 
   const iter = (dataValue, del) => {
-    if (typeof dataValue !== 'object' || dataValue === null) {
+    if (!_.isObject(dataValue)) {
       return `${dataValue}`;
     }
+    const finalInd = dex.repeat(del - defSpace);
 
-    const entries = Object.entries(dataValue);
-    const finalInd = dex.repeat(del - count);
-
-    const mapped = entries
+    const mapped = Object.entries(dataValue)
       .map(([key, value]) => {
-        const reps = key.startsWith('+') || key.startsWith('-') ? del : del + 2;
+        const reps = key.startsWith('+') || key.startsWith('-') ? del : del + defSpace;
         const defaultInd = dex.repeat(reps);
-        return `${defaultInd}${key}: ${iter(value, del + 4)}`;
+        return `${defaultInd}${key}: ${iter(value, del + addSpaceCount)}`;
       });
     return ['{', ...mapped, `${finalInd}}`].join('\n').trim();
   };
 
-  return iter(data, count);
+  return iter(data, defSpace);
 };
 
 export default stylish;
