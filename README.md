@@ -14,3 +14,5 @@
 https://asciinema.org/a/KkZQYTUFOrQziw7idNFM1mEFI
 ### diff plain:
 https://asciinema.org/a/RMHdww71KZON4hPIn7brnglQA
+### diff json:
+https://asciinema.org/a/VLAYohbWCjssHcavGg8yRNbbb

@@ -81,5 +81,13 @@ export const obj2 = {
   'r- second': 'check',
   'u- third': 'check3',
   'u+ third': 'check2',
-  third: 'val',
+  fourth: 'val',
+};
+
+export const obj3 = {
+  first: {
+    someVal: 'test',
+    'a+ someVal2': 'test2',
+  },
+  'r- second': 'big',
 };

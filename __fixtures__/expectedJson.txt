@@ -1,0 +1,123 @@
+{
+    "first": {
+        "value": "checker",
+        "type": "added"
+    },
+    "second": {
+        "value": "check",
+        "type": "removed"
+    },
+    "third": {
+        "value": "check2",
+        "type": "updated",
+        "prevValue": "check3"
+    },
+    "fourth": {
+        "value": "val",
+        "type": "unchanged"
+    }
+}
+
+{
+    "first": {
+        "someVal": {
+            "value": "test",
+            "type": "unchanged"
+        },
+        "someVal2": {
+            "value": "test2",
+            "type": "added"
+        }
+    },
+    "second": {
+        "value": "big",
+        "type": "removed"
+    }
+}
+
+{
+    "common": {
+        "follow": {
+            "value": false,
+            "type": "added"
+        },
+        "setting1": {
+            "value": "Value 1",
+            "type": "unchanged"
+        },
+        "setting2": {
+            "value": 200,
+            "type": "removed"
+        },
+        "setting3": {
+            "value": null,
+            "type": "updated",
+            "prevValue": true
+        },
+        "setting4": {
+            "value": "blah blah",
+            "type": "added"
+        },
+        "setting5": {
+            "value": {
+                "key5": "value5"
+            },
+            "type": "added"
+        },
+        "setting6": {
+            "doge": {
+                "wow": {
+                    "value": "so much",
+                    "type": "updated",
+                    "prevValue": ""
+                }
+            },
+            "key": {
+                "value": "value",
+                "type": "unchanged"
+            },
+            "ops": {
+                "value": "vops",
+                "type": "added"
+            }
+        }
+    },
+    "group1": {
+        "baz": {
+            "value": "bars",
+            "type": "updated",
+            "prevValue": "bas"
+        },
+        "foo": {
+            "value": "bar",
+            "type": "unchanged"
+        },
+        "nest": {
+            "value": "str",
+            "type": "updated",
+            "prevValue": {
+                "key": "value"
+            }
+        }
+    },
+    "group2": {
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        },
+        "type": "removed"
+    },
+    "group3": {
+        "value": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        },
+        "type": "added"
+    }
+}

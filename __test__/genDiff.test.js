@@ -10,11 +10,14 @@ const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 let expected;
 let plain;
+let json;
 beforeAll(() => {
   const data = fs.readFileSync(getFixturePath('expected.txt'), 'utf-8');
   const data2 = fs.readFileSync(getFixturePath('expectedPlain.txt'), 'utf-8');
+  const data3 = fs.readFileSync(getFixturePath('expectedJson.txt'), 'utf-8');
   expected = data.split('\n\n');
   plain = data2;
+  [, , json] = data3.split('\n\n');
 });
 
 test('genDiff_JSON', () => {
@@ -51,6 +54,9 @@ test('different formatters', () => {
   const result = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'), 'stylish');
   expect(result).toEqual(expected[0]);
 
-  const result2 = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'), 'plain');
+  const result2 = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'plain');
   expect(result2).toEqual(plain);
+
+  const result3 = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json');
+  expect(result3).toEqual(json);
 });
