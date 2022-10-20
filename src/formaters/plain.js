@@ -1,15 +1,13 @@
 import _ from 'lodash';
 
 const getType = (value) => {
-  let result;
   if (_.isObject(value)) {
-    result = '[complex value]';
-  } else if (typeof value === 'string') {
-    result = `'${value}'`;
-  } else {
-    result = value;
+    return '[complex value]';
   }
-  return result;
+  if (typeof value === 'string') {
+    return `'${value}'`;
+  }
+  return value;
 };
 
 const plain = (data) => {
@@ -17,7 +15,6 @@ const plain = (data) => {
 
   const iter = (d, depth, k) => {
     if (!_.isObject(d)) return `${d}`;
-    let updatedValue = '';
 
     return Object.entries(d)
       .reduce((acc, [key, value]) => {
@@ -25,17 +22,17 @@ const plain = (data) => {
           acc.push(iter(value, depth + 1, `${k}${key}.`));
         }
         const newValue = getType(value);
-
+        const newKey = key.substring(3);
         if (key.startsWith('a+')) {
-          acc.push(`Property '${k}${key.substring(3)}' was added with value: ${newValue}`);
-        } else if (key.startsWith('r-')) {
-          acc.push(`Property '${k}${key.substring(3)}' was removed`);
-        } else if (key.startsWith('u+')) {
-          acc.push(`Property '${k}${key.substring(3)}' was updated. From ${updatedValue} to ${newValue}`);
-        } else if (key.startsWith('u-')) {
-          updatedValue = newValue;
+          return [...acc, `Property '${k}${newKey}' was added with value: ${newValue}`];
         }
-
+        if (key.startsWith('r-')) {
+          return [...acc, `Property '${k}${newKey}' was removed`];
+        }
+        if (key.startsWith('u+')) {
+          const updatedValue = getType(d[`u- ${newKey}`]);
+          return [...acc, `Property '${k}${newKey}' was updated. From ${updatedValue} to ${newValue}`];
+        }
         return acc;
       }, [])
       .join('\n');

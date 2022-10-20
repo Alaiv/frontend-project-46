@@ -2,17 +2,11 @@ import _ from 'lodash';
 
 const getSpacing = (key, delim, defSpace) => {
   const diffType = ['u+', 'u-', 'r-', 'a+'];
-  let newKey = key;
-  let reps;
 
   if (diffType.includes(key.substring(0, 2))) {
-    reps = delim;
-    newKey = key.substring(1);
-  } else {
-    reps = delim + defSpace;
+    return [key.substring(1), delim];
   }
-
-  return [newKey, reps];
+  return [key, delim + defSpace];
 };
 
 const stylish = (data, dex = ' ') => {

@@ -5,42 +5,33 @@ const getValueType = (key) => {
   const keyVal = key.substring(0, 2);
   const checkForType = check.includes(key.substring(0, 2));
   const newKey = checkForType ? key.substring(3) : key;
-  let type;
 
   switch (keyVal) {
     case 'a+':
-      type = 'added';
-      break;
+      return [newKey, 'added', checkForType];
     case 'r-':
-      type = 'removed';
-      break;
+      return [newKey, 'removed', checkForType];
+    case 'u+':
+      return [newKey, 'updated', checkForType];
     default:
-      type = 'unchanged';
+      return [newKey, 'unchanged', checkForType];
   }
-
-  return [newKey, type, checkForType];
 };
 
 const json = (dataVal) => {
-  let prevUpdatedVal;
-
   const iter = (data) => {
     if (!_.isObject(data)) return data;
 
     return Object.entries(data)
       .reduce((acc, [key, value]) => {
         const [newKey, type, checkForType] = getValueType(key);
-
         if (!checkForType && _.isObject(value)) {
-          acc[newKey] = iter(value);
-        } else if (key.startsWith('u+')) {
-          acc[newKey] = { value, type: 'updated', prevValue: prevUpdatedVal };
-        } else if (key.startsWith('u-')) {
-          prevUpdatedVal = value;
-        } else {
-          acc[newKey] = { value, type };
+          return { ...acc, [newKey]: iter(value) };
         }
-        return acc;
+        if (key.startsWith('u+')) {
+          return { ...acc, [newKey]: { value, type, prevValue: data[`u- ${newKey}`] } };
+        }
+        return { ...acc, [newKey]: { value, type } };
       }, {});
   };
 

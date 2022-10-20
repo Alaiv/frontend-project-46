@@ -15,18 +15,19 @@ const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
       const sec = second[key];
 
       if (fir === undefined) {
-        acc[`a+ ${key}`] = sec;
-      } else if (sec === undefined) {
-        acc[`r- ${key}`] = fir;
-      } else if (_.isObject(fir) && _.isObject(sec)) {
-        acc[`${key}`] = iter(fir, sec);
-      } else if (fir === sec) {
-        acc[`${key}`] = fir;
-      } else {
-        acc[`u- ${key}`] = fir;
-        acc[`u+ ${key}`] = sec;
+        return { ...acc, [`a+ ${key}`]: sec };
       }
-      return acc;
+      if (sec === undefined) {
+        return { ...acc, [`r- ${key}`]: fir };
+      }
+      if (_.isObject(fir) && _.isObject(sec)) {
+        return { ...acc, [`${key}`]: iter(fir, sec) };
+      }
+      if (fir === sec) {
+        return { ...acc, [key]: fir };
+      }
+
+      return { ...acc, [`u- ${key}`]: fir, [`u+ ${key}`]: sec };
     }, {});
   };
 
