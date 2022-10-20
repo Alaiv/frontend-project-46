@@ -1,20 +1,27 @@
 import _ from 'lodash';
 
 const getValueType = (key) => {
+  const check = ['a+', 'r-', 'u+', 'u-'];
   const keyVal = key.substring(0, 2);
+  const checkForType = check.includes(key.substring(0, 2));
+  const newKey = checkForType ? key.substring(3) : key;
+  let type;
 
   switch (keyVal) {
     case 'a+':
-      return 'added';
+      type = 'added';
+      break;
     case 'r-':
-      return 'removed';
+      type = 'removed';
+      break;
     default:
-      return 'unchanged';
+      type = 'unchanged';
   }
+
+  return [newKey, type, checkForType];
 };
 
 const json = (dataVal) => {
-  const check = ['a+', 'r-', 'u+', 'u-'];
   let prevUpdatedVal;
 
   const iter = (data) => {
@@ -22,8 +29,7 @@ const json = (dataVal) => {
 
     return Object.entries(data)
       .reduce((acc, [key, value]) => {
-        const checkForType = check.includes(key.substring(0, 2));
-        const newKey = checkForType ? key.substring(3) : key;
+        const [newKey, type, checkForType] = getValueType(key);
 
         if (!checkForType && _.isObject(value)) {
           acc[newKey] = iter(value);
@@ -32,7 +38,7 @@ const json = (dataVal) => {
         } else if (key.startsWith('u-')) {
           prevUpdatedVal = value;
         } else {
-          acc[newKey] = { value, type: getValueType(key) };
+          acc[newKey] = { value, type };
         }
         return acc;
       }, {});
