@@ -76,18 +76,10 @@ export const obj = {
   },
 };
 
-export const obj2 = {
-  'a+ first': 'checker',
-  'r- second': 'check',
-  'u- third': 'check3',
-  'u+ third': 'check2',
-  fourth: 'val',
-};
-
-export const obj3 = {
-  first: {
-    someVal: 'test',
-    'a+ someVal2': 'test2',
+export const obj2 = [
+  { name: 'first', content: 'checker', type: 'added' },
+  { name: 'second', content: 'smth', type: 'removed' },
+  {
+    name: 'third', content: 'check2', prevContent: 'check3', type: 'updated',
   },
-  'r- second': 'big',
-};
+];

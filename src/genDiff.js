@@ -10,25 +10,26 @@ const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
     const [keys1, keys2] = [Object.keys(first), Object.keys(second)];
     const sumKeys = _.sortBy(_.uniq([...keys1, ...keys2]));
 
-    return sumKeys.reduce((acc, key) => {
+    return sumKeys.map((key) => {
       const fir = first[key];
       const sec = second[key];
 
       if (fir === undefined) {
-        return { ...acc, [`a+ ${key}`]: sec };
+        return { name: key, content: sec, type: 'added' };
       }
       if (sec === undefined) {
-        return { ...acc, [`r- ${key}`]: fir };
+        return { name: key, content: fir, type: 'removed' };
       }
       if (_.isObject(fir) && _.isObject(sec)) {
-        return { ...acc, [`${key}`]: iter(fir, sec) };
+        return { name: key, children: iter(fir, sec), type: 'nested' };
       }
       if (fir === sec) {
-        return { ...acc, [key]: fir };
+        return { name: key, children: fir, type: 'unchanged' };
       }
-
-      return { ...acc, [`u- ${key}`]: fir, [`u+ ${key}`]: sec };
-    }, {});
+      return {
+        name: key, content: sec, prevContent: fir, type: 'updated',
+      };
+    });
   };
 
   return getFormatType(iter(file1, file2), formatterType);

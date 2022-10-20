@@ -1,12 +1,16 @@
 import _ from 'lodash';
 
-const getSpacing = (key, delim, defSpace) => {
-  const diffType = ['u+', 'u-', 'r-', 'a+'];
-
-  if (diffType.includes(key.substring(0, 2))) {
-    return [key.substring(1), delim];
+const getKey = (name, type) => {
+  switch (type) {
+    case 'removed':
+      return `- ${name}`;
+    case 'added':
+      return `+ ${name}`;
+    case 'nested':
+      return `  ${name}`;
+    default:
+      return `  ${name}`;
   }
-  return [key, delim + defSpace];
 };
 
 const stylish = (data, dex = ' ') => {
@@ -16,13 +20,20 @@ const stylish = (data, dex = ' ') => {
 
   const iter = (dataValue, del) => {
     if (!_.isObject(dataValue)) return `${dataValue}`;
-    const finalInd = dex.repeat(del - defSpace);
+    const finalInd = ' '.repeat(del - defSpace);
 
-    const mapped = Object.entries(dataValue)
-      .map(([key, value]) => {
-        const [newKey, reps] = getSpacing(key, del, defSpace);
-        const defaultInd = dex.repeat(reps);
-        return `${defaultInd}${newKey}: ${iter(value, del + addSpaceCount)}`;
+    const mapValue = _.isArray(dataValue) ? dataValue : Object.entries(dataValue);
+    const mapped = mapValue
+      .flatMap((val) => {
+        const defaultInd = dex.repeat(del);
+        const name = val.name ?? val[0];
+        const value = val.children ?? val.content ?? val[1];
+
+        if (val.type === 'updated') {
+          return [`${defaultInd}- ${val.name}: ${iter(val.prevContent, del + addSpaceCount)}`,
+            `${defaultInd}+ ${val.name}: ${iter(val.content, del + addSpaceCount)}`];
+        }
+        return `${defaultInd}${getKey(name, val.type)}: ${iter(value, del + addSpaceCount)}`;
       });
     return ['{', ...mapped, `${finalInd}}`].join('\n').trim();
   };

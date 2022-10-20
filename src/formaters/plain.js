@@ -11,27 +11,25 @@ const getType = (value) => {
 };
 
 const plain = (data) => {
-  const check = ['a+', 'r-', 'u+', 'u-'];
-
   const iter = (d, depth, k) => {
     if (!_.isObject(d)) return `${d}`;
 
-    return Object.entries(d)
-      .reduce((acc, [key, value]) => {
-        const keyType = key.substring(0, 2);
-        if (!check.includes(keyType) && _.isObject(value)) {
-          return [...acc, iter(value, depth + 1, `${k}${key}.`)];
+    return d
+      .reduce((acc, val) => {
+        const { name } = val;
+        const value = val.children ?? val.content;
+        if (val.type === 'nested') {
+          return [...acc, iter(value, depth + 1, `${k}${name}.`)];
         }
         const newValue = getType(value);
-        const newKey = key.substring(3);
-        switch (keyType) {
-          case 'a+':
-            return [...acc, `Property '${k}${newKey}' was added with value: ${newValue}`];
-          case 'r-':
-            return [...acc, `Property '${k}${newKey}' was removed`];
-          case 'u+':
+        switch (val.type) {
+          case 'added':
+            return [...acc, `Property '${k}${name}' was added with value: ${newValue}`];
+          case 'removed':
+            return [...acc, `Property '${k}${name}' was removed`];
+          case 'updated':
             return [...acc,
-              `Property '${k}${newKey}' was updated. From ${getType(d[`u- ${newKey}`])} to ${newValue}`];
+              `Property '${k}${name}' was updated. From ${getType(val.prevContent)} to ${newValue}`];
           default:
             return acc;
         }
