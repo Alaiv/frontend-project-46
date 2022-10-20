@@ -1,3 +1,3 @@
-const json = (dataVal) => JSON.stringify(dataVal, ' ', 4);
+const json = (dataVal) => JSON.stringify(dataVal);
 
 export default json;

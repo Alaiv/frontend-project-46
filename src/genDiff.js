@@ -13,12 +13,10 @@ const genDiff = (filepath1, filepath2, formatterType = 'stylish') => {
     return sumKeys.map((key) => {
       const fir = first[key];
       const sec = second[key];
-
-      if (fir === undefined) {
-        return { name: key, content: sec, type: 'added' };
-      }
-      if (sec === undefined) {
-        return { name: key, content: fir, type: 'removed' };
+      if (fir === undefined || sec === undefined) {
+        return !fir
+          ? { name: key, content: sec, type: 'added' }
+          : { name: key, content: fir, type: 'removed' };
       }
       if (_.isObject(fir) && _.isObject(sec)) {
         return { name: key, children: iter(fir, sec), type: 'nested' };

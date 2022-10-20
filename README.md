@@ -7,12 +7,12 @@
 
 
 ### diff asc:
-[![asciicast](https://asciinema.org/a/529430.svg)](https://asciinema.org/a/529430)
+https://asciinema.org/a/529430
 ### diff yml:
-[![asciicast](https://asciinema.org/a/W9Z4DK7rNTQm0cRVd3YRRfDaz.svg)](https://asciinema.org/a/W9Z4DK7rNTQm0cRVd3YRRfDaz)
+https://asciinema.org/a/W9Z4DK7rNTQm0cRVd3YRRfDaz
 ### diff nested:
 https://asciinema.org/a/KkZQYTUFOrQziw7idNFM1mEFI
 ### diff plain:
 https://asciinema.org/a/RMHdww71KZON4hPIn7brnglQA
 ### diff json:
-https://asciinema.org/a/VLAYohbWCjssHcavGg8yRNbbb
+https://asciinema.org/a/d4sZ3Wo4vbrAwTMyY634ay7Hp
