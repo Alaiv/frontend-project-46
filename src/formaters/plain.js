@@ -18,22 +18,23 @@ const plain = (data) => {
 
     return Object.entries(d)
       .reduce((acc, [key, value]) => {
-        if (!check.includes(key.substring(0, 2)) && _.isObject(value)) {
+        const keyType = key.substring(0, 2);
+        if (!check.includes(keyType) && _.isObject(value)) {
           return [...acc, iter(value, depth + 1, `${k}${key}.`)];
         }
         const newValue = getType(value);
         const newKey = key.substring(3);
-        if (key.startsWith('a+')) {
-          return [...acc, `Property '${k}${newKey}' was added with value: ${newValue}`];
+        switch (keyType) {
+          case 'a+':
+            return [...acc, `Property '${k}${newKey}' was added with value: ${newValue}`];
+          case 'r-':
+            return [...acc, `Property '${k}${newKey}' was removed`];
+          case 'u+':
+            return [...acc,
+              `Property '${k}${newKey}' was updated. From ${getType(d[`u- ${newKey}`])} to ${newValue}`];
+          default:
+            return acc;
         }
-        if (key.startsWith('r-')) {
-          return [...acc, `Property '${k}${newKey}' was removed`];
-        }
-        if (key.startsWith('u+')) {
-          const updatedValue = getType(d[`u- ${newKey}`]);
-          return [...acc, `Property '${k}${newKey}' was updated. From ${updatedValue} to ${newValue}`];
-        }
-        return acc;
       }, [])
       .join('\n');
   };
