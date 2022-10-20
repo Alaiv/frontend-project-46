@@ -19,7 +19,7 @@ const plain = (data) => {
     return Object.entries(d)
       .reduce((acc, [key, value]) => {
         if (!check.includes(key.substring(0, 2)) && _.isObject(value)) {
-          acc.push(iter(value, depth + 1, `${k}${key}.`));
+          return [...acc, iter(value, depth + 1, `${k}${key}.`)];
         }
         const newValue = getType(value);
         const newKey = key.substring(3);
