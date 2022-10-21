@@ -29,11 +29,10 @@ const stylish = (data, dex = ' ') => {
         const name = val.name ?? val[0];
         const value = val.children ?? val.content ?? val[1] ?? null;
 
-        if (val.type === 'updated') {
-          return [`${defaultInd}- ${val.name}: ${iter(val.prevContent, del + addSpaceCount)}`,
-            `${defaultInd}+ ${val.name}: ${iter(val.content, del + addSpaceCount)}`];
-        }
-        return `${defaultInd}${getKey(name, val.type)}: ${iter(value, del + addSpaceCount)}`;
+        return val.type === 'updated'
+          ? [`${defaultInd}- ${val.name}: ${iter(val.prevContent, del + addSpaceCount)}`,
+            `${defaultInd}+ ${val.name}: ${iter(val.content, del + addSpaceCount)}`]
+          : `${defaultInd}${getKey(name, val.type)}: ${iter(value, del + addSpaceCount)}`;
       });
     return ['{', ...mapped, `${finalInd}}`].join('\n').trim();
   };
