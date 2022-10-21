@@ -27,7 +27,7 @@ const stylish = (data, dex = ' ') => {
       .flatMap((val) => {
         const defaultInd = dex.repeat(del);
         const name = val.name ?? val[0];
-        const value = val.children ?? val.content ?? val[1];
+        const value = val.children ?? val.content ?? val[1] ?? null;
 
         if (val.type === 'updated') {
           return [`${defaultInd}- ${val.name}: ${iter(val.prevContent, del + addSpaceCount)}`,

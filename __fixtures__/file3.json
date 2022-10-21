@@ -6,7 +6,7 @@
   "object": {
     "num": "number",
     "float": "float",
-    "null": "null",
+    "null": null,
     "boolean": "boolean",
     "value": "string",
     "nested": {
@@ -14,7 +14,7 @@
       "float": 1.25,
       "string": "value",
       "number": 5,
-      "null": "null"
+      "null": null
     }
   }
 }
